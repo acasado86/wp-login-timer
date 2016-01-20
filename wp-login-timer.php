@@ -30,6 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class WPLoginTimer {
     static $instance = null;
+    var $timer_wait = 5;
     
     static function & getInstance() {
         if (null == WPLoginTimer::$instance) {
@@ -41,11 +42,21 @@ class WPLoginTimer {
     
     function WPLoginTimer(){
         add_action( 'wp_authenticate_user', array( $this, 'check_custom_authentication' ), 10, 1 );
-        add_action( 'login_form', array( $this, 'add_login_nonce' ));
+        add_action( 'wp_ajax_nopriv_load_wp_login_nonce', array(&$this, 'ajax_load_wp_login_nonce') );
+        add_action( 'login_enqueue_scripts',  array(&$this, 'login_enqueue_script') );
     }
     
-    function add_login_nonce(){
+    function login_enqueue_script() {
+        $ajaxurl = admin_url( 'admin-ajax.php', 'relative' );
+        wp_register_script('wp-login-timer-js', plugins_url("wp-login-timer.js", __FILE__), array('jquery'), '1.0.0');
+        wp_enqueue_script('wp-login-timer-js');
+        wp_localize_script('wp-login-timer-js', 'ajaxurl', $ajaxurl);
+    }
+    
+    function ajax_load_wp_login_nonce(){
+        sleep( $this->timer_wait );
         wp_nonce_field( 'login_timer', 'login_nonce' );
+        die();
     }
     
     function check_custom_authentication($user) {
