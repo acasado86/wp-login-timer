@@ -4,7 +4,7 @@
 Plugin Name: wp-login-timer
 Plugin URI: https://github.com/acasado86/wp-login-timer
 Description: Simple security against brute-force attacks on login and register
-Version: 1.0.0
+Version: 1.0.1
 Author: acasado
 Author URI: 
 License: GPLv2
