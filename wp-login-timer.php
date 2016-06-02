@@ -37,7 +37,7 @@ class WPLoginTimer {
             WPLoginTimer::$instance = new WPLoginTimer();
         }
 
-        return OSUploadContent::$instance;
+        return WPLoginTimer::$instance;
     }
     
     function WPLoginTimer(){
