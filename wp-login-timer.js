@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
             'action': 'load_wp_login_nonce',
         },
         success: function (data) {
-            jQuery('#loginform').append(data);
+            jQuery('#loginform, #registerform').append(data);
             jQuery('.submit').show();
         },
         error: function (data) {
